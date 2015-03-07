@@ -1,10 +1,14 @@
 newProject = require './project'
 
-class Projects
+class Space
   constructor: (config) ->
     # @rooms ... projectKey: room
     json = config.projects ? '{}'
     @rooms = JSON.parse json
+    @id = config.backlogSpaceId
+
+  getId: ->
+    @id
 
   getProject: (projectKey) ->
     room = @rooms[projectKey]
@@ -12,6 +16,6 @@ class Projects
     newProject projectKey, room
 
 module.exports = (config) ->
-  new Projects config
+  new Space config
 
-module.exports.Projects = Projects
+module.exports.Space = Space
