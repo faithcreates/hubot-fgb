@@ -6,10 +6,10 @@ describe 'Projects', ->
     config =
       projects: '{"PROJ":"room"}'
     projects = new Projects config
-    assert projects.getRoom('PROJ') is 'room'
-    assert projects.getRoom(null) is null
+    assert projects.getProject('PROJ')
+    assert projects.getProject(null) is null
 
     config =
       projects: null
     projects = new Projects config
-    assert projects.getRoom('PROJ') is null
+    assert projects.getProject('PROJ') is null

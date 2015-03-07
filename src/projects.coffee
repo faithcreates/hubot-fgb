@@ -1,12 +1,17 @@
+newProject = require './project'
+
 class Projects
   constructor: (config) ->
-    # projectKey: room
-    @projects = JSON.parse(config.projects ? '{}')
+    # @rooms ... projectKey: room
+    json = config.projects ? '{}'
+    @rooms = JSON.parse json
 
-  getRoom: (projectKey) ->
-    @projects[projectKey] ? null
+  getProject: (projectKey) ->
+    room = @rooms[projectKey]
+    return null unless room?
+    newProject projectKey, room
 
-module.exports = ->
-  new Projects
+module.exports = (config) ->
+  new Projects config
 
 module.exports.Projects = Projects
