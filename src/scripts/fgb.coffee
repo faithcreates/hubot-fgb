@@ -58,6 +58,8 @@ onIssueUpdated = (robot, space, project, w, requests) ->
   changes = formatChanges w.content.changes
   resolved = w.content.changes.some (i) ->
     i.field is 'status' and i.new_value is '3'
+  assign = w.content.changes.filter((i) -> i.field is 'assigner')[0]
+  assignerName = assign?.new_value
   message = """
   #{username} が課題「#{issueKey} #{summary}」を更新したみたい。
   #{comment}
@@ -66,7 +68,10 @@ onIssueUpdated = (robot, space, project, w, requests) ->
   ```
   #{issueUrl}
   """
-  sendToChat robot, { room, message }
+  m = { room, message }
+  if assignerName?
+    m.user = space.getUser assignerName
+  sendToChat robot, m
   if resolved
     user = space.getUser username
     unless user?
