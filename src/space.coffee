@@ -23,6 +23,7 @@ class Space
     .then (users) =>
       userId = (u.id for u in users when u.name is backlogUsername)[0]
       return unless userId?
+      # TODO: check resolved
       @getGitHubUrl issueKey
       .then (url) ->
         @backlog.updateIssue issueKey,
