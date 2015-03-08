@@ -1,21 +1,24 @@
+moment = require 'moment'
+
 class ReviewRequests
   constructor: ->
     # room:
-    #   user: issueKey
+    #   user: {}
     @requests = {}
 
-  add: (room, user, issueKey) ->
+  add: (room, user, data) ->
     @requests[room] ?= {}
-    @requests[room][user] = issueKey
+    data.expiredAt = moment().add 30, 'seconds'
+    @requests[room][user] = data
 
   remove: (room, user) ->
     return null unless room?
     return null unless user?
     return null unless @requests[room]?
-    issueKey = @requests[room][user]
-    return null unless issueKey?
+    data = @requests[room][user]
+    return null unless data?
     delete @requests[room][user]
-    issueKey
+    if data.expiredAt.isAfter(moment()) then data else null
 
 module.exports = ->
   new ReviewRequests

@@ -6,20 +6,20 @@ describe 'ReviewRequests', ->
     requests = new ReviewRequests()
 
     # ignore invalid key
-    requests.add 'room', 'user', 'issueKey'
+    requests.add 'room', 'user', { issueKey: 'issueKey' }
     assert requests.remove(null, 'user') is null
     assert requests.remove('room', null) is null
     assert requests.remove('room', 'user1') is null
     assert requests.remove('room1', 'user') is null
-    assert requests.remove('room', 'user') is 'issueKey'
+    assert requests.remove('room', 'user').issueKey is 'issueKey'
 
     # key is removed
-    requests.add 'room', 'user', 'issueKey'
-    assert requests.remove('room', 'user') is 'issueKey'
+    requests.add 'room', 'user', { issueKey: 'issueKey' }
+    assert requests.remove('room', 'user').issueKey is 'issueKey'
     assert requests.remove('room', 'user') is null
 
     # overwrite value
-    requests.add 'room', 'user', 'issueKey1'
-    requests.add 'room', 'user', 'issueKey2'
-    assert requests.remove('room', 'user') is 'issueKey2'
+    requests.add 'room', 'user', { issueKey: 'issueKey1' }
+    requests.add 'room', 'user', { issueKey: 'issueKey2' }
+    assert requests.remove('room', 'user').issueKey is 'issueKey2'
     assert requests.remove('room', 'user') is null
