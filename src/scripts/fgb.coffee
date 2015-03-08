@@ -70,6 +70,9 @@ onIssueUpdated = (robot, space, w, requests) ->
   sendToChat robot, { room, message }
   if resolved
     user = space.getUser username
+    unless user?
+      robot.logger.warning 'hubot-fgb: unknown backlog user: ' + username
+      return
     requests.add room, user, issueKey
     message = "#{issueKey} を誰かにレビュー依頼しないの？"
     sendToChat robot, { room, user, message }
