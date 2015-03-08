@@ -29,12 +29,7 @@ sendToChat = (robot, { room, user, message }) ->
   e.room = room if room?
   robot.send e, m
 
-onIssueCreated = (robot, space, w) ->
-  projectKey = w.project.projectKey
-  project = space.getProject projectKey
-  unless project?
-    robot.logger.warning 'hubot-fgb: unknown project key: ' + projectKey
-    return
+onIssueCreated = (robot, space, project, w) ->
   issueKey = "#{project.getKey()}-#{w.content.key_id}"
   issueUrl = "https://#{space.getId()}.backlog.jp/view/#{issueKey}"
   summary = w.content.summary
@@ -48,12 +43,7 @@ onIssueCreated = (robot, space, w) ->
   """
   sendToChat robot, { room, message }
 
-onIssueUpdated = (robot, space, w, requests) ->
-  projectKey = w.project.projectKey
-  project = space.getProject projectKey
-  unless project?
-    robot.logger.warning 'hubot-fgb: unknown project key: ' + projectKey
-    return
+onIssueUpdated = (robot, space, project, w, requests) ->
   issueKey = "#{project.getKey()}-#{w.content.key_id}"
   issueUrl = "https://#{space.getId()}.backlog.jp/view/#{issueKey}"
   summary = w.content.summary
@@ -82,12 +72,7 @@ onIssueUpdated = (robot, space, w, requests) ->
     message = "#{issueKey} を誰かにレビュー依頼しないの？"
     sendToChat robot, { room, user, message }
 
-onIssueCommented = (robot, space, w) ->
-  projectKey = w.project.projectKey
-  project = space.getProject projectKey
-  unless project?
-    robot.logger.warning 'hubot-fgb: unknown project key: ' + projectKey
-    return
+onIssueCommented = (robot, space, project, w) ->
   issueKey = "#{project.getKey()}-#{w.content.key_id}"
   issueUrl = "https://#{space.getId()}.backlog.jp/view/#{issueKey}"
   summary = w.content.summary
@@ -110,12 +95,16 @@ module.exports = (robot) ->
 
   robot.router.post '/hubot/fgb/backlog/webhook', (req, res) ->
     webhook = req.body
-    if webhook.type is 1 # issue created
-      onIssueCreated robot, space, webhook
-    else if webhook.type is 2 # issue updated
-      onIssueUpdated robot, space, webhook, requests
-    else if webhook.type is 3 # issue commented
-      onIssueCommented robot, space, webhook
+    if webhook.type in [1, 2, 3]
+      projectKey = w.project.projectKey
+      project = space.getProject projectKey
+      unless project?
+        robot.logger.warning 'hubot-fgb: unknown project key: ' + projectKey
+        return
+      switch webhook.type
+        when 1 then onIssueCreated robot, space, project, webhook
+        when 2 then onIssueUpdated robot, space, project, webhook, requests
+        when 3 then onIssueCommented robot, space, project, webhook
     else
       return if webhook.type <= 17 # max webhook.type
       robot.logger.warning "hubot-fgb: unknown webhook type: #{webhook.type}"
