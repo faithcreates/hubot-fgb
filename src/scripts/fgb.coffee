@@ -70,8 +70,8 @@ onIssueUpdated = (robot, space, project, w, requests) ->
     unless user?
       robot.logger.warning 'hubot-fgb: unknown backlog user: ' + username
       return
-    requests.add room, user, issueKey
-    message = "#{issueKey} を誰かにレビュー依頼しないの？"
+    requests.add room, user, { project, issueKey }
+    message = "#{issueKey} を誰にレビュー依頼する？"
     sendToChat robot, { room, user, message }
 
 onIssueCommented = (robot, space, project, w) ->
@@ -94,6 +94,15 @@ module.exports = (robot) ->
   robot.logger.debug 'hubot-fgb: load config: ' + JSON.stringify config
   space = newSpace config
   requests = newRequests()
+
+  robot.respond /\s*@([-\w]+):?\s*/, (res) ->
+    room = res?.message?.room
+    user = res?.message?.user?.name
+    data = requests.remove room, user
+    return unless data?
+    {project, issueKey} = data
+    slackAssigneeUsername = res.match[1]
+    space.assign project, issueKey, slackAssigneeUsername
 
   robot.router.post '/hubot/fgb/backlog/webhook', (req, res) ->
     webhook = req.body
