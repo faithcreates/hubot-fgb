@@ -115,7 +115,7 @@ module.exports = (robot) ->
   robot.router.post '/hubot/fgb/backlog/webhook', (req, res) ->
     webhook = req.body
     if webhook.type in [1, 2, 3]
-      projectKey = w.project.projectKey
+      projectKey = webhook.project.projectKey
       project = space.getProject projectKey
       unless project?
         robot.logger.warning 'hubot-fgb: unknown project key: ' + projectKey
