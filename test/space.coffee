@@ -12,6 +12,7 @@ describe 'Space', ->
     assert space.getProject('PROJ') # Project instance
     assert space.getProject(null) is null
     assert space.getUser('backlog') is 'slack'
+    assert space.getBacklogUser('slack') is 'backlog'
 
     config =
       backlogSpaceId: null
@@ -21,3 +22,4 @@ describe 'Space', ->
     assert space.getId() is null
     assert space.getProject('PROJ') is null
     assert space.getUser('backlog') is null
+    assert space.getBacklogUser('slack') is null

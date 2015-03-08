@@ -18,9 +18,15 @@ class Space
     return null unless room?
     newProject projectKey, room
 
-  # returns slack username
-  getUser: (username) ->
-    @users[username] ? null
+  # TODO: s/getUser/getSlackUser
+  # backlog -> slack
+  getUser: (backlogUsername) ->
+    @users[backlogUsername] ? null
+
+  # slack -> backlog
+  getBacklogUser: (user) ->
+    backlogUsers = (k for k, v of @users when v is user)
+    backlogUsers[0] ? null
 
 module.exports = (config) ->
   new Space config
