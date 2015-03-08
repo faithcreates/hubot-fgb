@@ -20,6 +20,8 @@ newSpace = require '../space'
 
 config = parseConfig 'fgb',
   backlogSpaceId: null
+  backlogUsername: null
+  backlogApiKey: null
   projects: '{}'
   users: '{}'
 

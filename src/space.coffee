@@ -1,3 +1,4 @@
+newBacklog = require './backlog'
 newProject = require './project'
 
 class Space
@@ -9,6 +10,22 @@ class Space
     json = config.users ? '{}'
     @users = JSON.parse json
     @id = config.backlogSpaceId
+    @backlog = newBacklog
+      spaceId: config.backlogSpaceId
+      username: config.backlogUsername
+      apiKey: config.backlogApiKey
+
+  # TODO: move to Issue
+  # public
+  assign: (project, issueKey, slackUsername) ->
+    backlogUsername = @getBacklogUser slackUsername
+    @backlog.getProjectUsers project.getKey()
+    .then (users) =>
+      userId = (u.id for u in users when u.name is backlogUsername)[0]
+      return unless userId?
+      @backlog.updateIssue issueKey,
+        comment: 'レビューをお願いしたいみたい。'
+        assigneeId: userId
 
   getId: ->
     @id
