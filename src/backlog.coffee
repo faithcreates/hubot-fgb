@@ -7,6 +7,11 @@ class Backlog
     @_username = username ? userName
     @_apiKey = apiKey ? apikey
 
+  getProjectUsers: (projectIdOrKey) ->
+    @_request
+      path: '/api/v2/projects/:projectIdOrKey/users'
+      params: { projectIdOrKey }
+
   getWebhooks: (projectIdOrKey) ->
     @_request
       path: '/api/v2/projects/:projectIdOrKey/webhooks'

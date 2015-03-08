@@ -23,9 +23,24 @@ describe 'Backlog', ->
   afterEach ->
     @sinon.restore()
 
+  describe '#getProjectUsers', ->
+    beforeEach ->
+      @request = @sinon.stub request, 'Request', (options) =>
+        res =
+          statusCode: 200
+          body: JSON.stringify @samples['get-project-users']
+        options.callback null, res
+
+    it 'works', ->
+      @backlog.getProjectUsers @projectKey
+      .then (result) =>
+        assert Array.isArray result
+        assert result[0].name is 'bouzuya3'
+        o = @request.getCall(0).args[0]
+        assert o.url is 'https://s.backlog.jp/api/v2/projects/PROJ/users'
+
   describe '#getWebhooks', ->
     beforeEach ->
-      @projectKey = 'PROJ'
       @request = @sinon.stub request, 'Request', (options) =>
         res =
           statusCode: 200
