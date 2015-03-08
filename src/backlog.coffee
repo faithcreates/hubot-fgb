@@ -7,6 +7,12 @@ class Backlog
     @_username = username ? userName
     @_apiKey = apiKey ? apikey
 
+  getIssueComments: (issueIdOrKey, query) ->
+    @_request
+      path: '/api/v2/issues/:issueIdOrKey/comments'
+      params: { issueIdOrKey }
+      query: query
+
   getProjectUsers: (projectIdOrKey) ->
     @_request
       path: '/api/v2/projects/:projectIdOrKey/users'

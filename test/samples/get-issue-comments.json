@@ -1,0 +1,19 @@
+[
+  {
+    "id": 3968620,
+    "content": "LGTM",
+    "changeLog": [],
+    "createdUser": {
+      "id": 3676,
+      "userId": "bouzuya",
+      "name": "bouzuya3",
+      "roleType": 1,
+      "lang": "ja",
+      "mailAddress": "bouzuya@example.com"
+    },
+    "created": "2015-03-08T11:01:38Z",
+    "updated": "2015-03-08T11:01:38Z",
+    "stars": [],
+    "notifications": []
+  }
+]

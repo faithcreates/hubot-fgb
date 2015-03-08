@@ -24,6 +24,22 @@ describe 'Backlog', ->
   afterEach ->
     @sinon.restore()
 
+  describe '#getIssueComments', ->
+    beforeEach ->
+      @request = @sinon.stub request, 'Request', (options) =>
+        res =
+          statusCode: 200
+          body: JSON.stringify @samples['get-issue-comments']
+        options.callback null, res
+
+    it 'works', ->
+      @backlog.getIssueComments @issueKey
+      .then (result) =>
+        assert Array.isArray result
+        assert result[0].content is 'LGTM'
+        o = @request.getCall(0).args[0]
+        assert o.url is 'https://s.backlog.jp/api/v2/issues/PROJ-123/comments'
+
   describe '#getProjectUsers', ->
     beforeEach ->
       @request = @sinon.stub request, 'Request', (options) =>
