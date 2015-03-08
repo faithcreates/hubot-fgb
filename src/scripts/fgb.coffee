@@ -77,6 +77,27 @@ onIssueUpdated = (robot, space, w, requests) ->
     message = "#{issueKey} を誰かにレビュー依頼しないの？"
     sendToChat robot, { room, user, message }
 
+onIssueCommented = (robot, space, w) ->
+  projectKey = w.project.projectKey
+  project = space.getProject projectKey
+  unless project?
+    robot.logger.warning 'hubot-fgb: unknown project key: ' + projectKey
+    return
+  issueKey = "#{project.getKey()}-#{w.content.key_id}"
+  issueUrl = "https://#{space.getId()}.backlog.jp/view/#{issueKey}"
+  summary = w.content.summary
+  description = w.content.description
+  username = w.createdUser.name
+  commentId = w.content.comment.id
+  comment = w.content.comment.content
+  room = project.getRoom()
+  message = """
+  #{username} が課題「#{issueKey} #{summary}」にコメントしたみたい。
+  #{comment}
+  #{issueUrl}#comment-#{commentId}
+  """
+  sendToChat robot, { room, message }
+
 module.exports = (robot) ->
   robot.logger.debug 'hubot-fgb: load config: ' + JSON.stringify config
   space = newSpace config
@@ -88,6 +109,8 @@ module.exports = (robot) ->
       onIssueCreated robot, space, webhook
     else if webhook.type is 2 # issue updated
       onIssueUpdated robot, space, webhook, requests
+    else if webhook.type is 3 # issue commented
+      onIssueCommented robot, space, webhook
     else
       return if webhook.type <= 17 # max webhook.type
       robot.logger.warning "hubot-fgb: unknown webhook type: #{webhook.type}"
