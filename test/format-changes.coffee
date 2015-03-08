@@ -55,3 +55,6 @@ describe 'formatChanges', ->
     予定時間        :  1           ->  2
     実績時間        :  2           ->  3
     '''
+
+    message = formatChanges null
+    assert message is ''

@@ -42,6 +42,7 @@ getValue = (f, v) ->
       v
 
 module.exports = (changes) ->
+  return '' unless changes?
   table changes.map (i) ->
     field = getField i.field
     oldValue = getValue i.field, i.old_value
