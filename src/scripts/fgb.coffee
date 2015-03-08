@@ -14,6 +14,7 @@
 
 {Promise} = require 'es6-promise'
 parseConfig = require 'hubot-config'
+formatChanges = require '../format-changes'
 newRequests = require '../review-requests'
 newSpace = require '../space'
 
@@ -60,11 +61,15 @@ onIssueUpdated = (robot, space, w, requests) ->
   username = w.createdUser.name
   comment = w.content.comment.content
   room = project.getRoom()
+  changes = formatChanges w.content.changes
   resolved = w.content.changes.some (i) ->
     i.field is 'status' and i.new_value is '3'
   message = """
   #{username} が課題「#{issueKey} #{summary}」を更新したみたい。
   #{comment}
+  ```
+  #{changes}
+  ```
   #{issueUrl}
   """
   sendToChat robot, { room, message }
