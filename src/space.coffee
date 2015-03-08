@@ -5,6 +5,9 @@ class Space
     # @rooms ... projectKey: room
     json = config.projects ? '{}'
     @rooms = JSON.parse json
+    # @users ... backlogUsername: slackUsername
+    json = config.users ? '{}'
+    @users = JSON.parse json
     @id = config.backlogSpaceId
 
   getId: ->
@@ -14,6 +17,10 @@ class Space
     room = @rooms[projectKey]
     return null unless room?
     newProject projectKey, room
+
+  # returns slack username
+  getUser: (username) ->
+    @users[username] ? null
 
 module.exports = (config) ->
   new Space config
