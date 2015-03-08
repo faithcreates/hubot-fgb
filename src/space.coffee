@@ -23,9 +23,26 @@ class Space
     .then (users) =>
       userId = (u.id for u in users when u.name is backlogUsername)[0]
       return unless userId?
-      @backlog.updateIssue issueKey,
-        comment: 'レビューをお願いしたいみたい。'
-        assigneeId: userId
+      @getGitHubUrl issueKey
+      .then (url) ->
+        @backlog.updateIssue issueKey,
+          comment: """
+            レビューをお願いしたいみたい。
+            #{url}
+          """
+          assigneeId: userId
+
+  getGitHubUrl: (issueKey) ->
+    @backlog.getIssueComments issueKey, { order: 'desc' }
+    .then (comments) ->
+      urls = comments
+        .map (i) -> i.content
+        .filter (i) -> i
+        .map (i) -> i.match /(https:\/\/github\.com\/\S+)/
+        .filter (i) -> i
+        .map (i) -> i[1]
+        .filter (i) -> i
+      urls[0]
 
   getId: ->
     @id
