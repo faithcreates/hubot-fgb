@@ -17,6 +17,13 @@ class Backlog
       path: '/api/v2/projects/:projectIdOrKey/webhooks'
       params: { projectIdOrKey }
 
+  updateIssue: (issueIdOrKey, body) ->
+    @_request
+      method: 'PATCH'
+      path: '/api/v2/issues/:issueIdOrKey'
+      params: { issueIdOrKey }
+      form: body
+
   _buildPath: (path, params) ->
     params ?= {}
     pattern = new RegExp ':[^/]+', 'g'

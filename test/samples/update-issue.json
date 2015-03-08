@@ -1,0 +1,76 @@
+{
+  "id": 910168,
+  "projectId": 1546,
+  "issueKey": "PROJ-123",
+  "keyId": 65,
+  "issueType": {
+    "id": 6521,
+    "projectId": 1546,
+    "name": "バグ",
+    "color": "#990000",
+    "displayOrder": 0
+  },
+  "summary": "aaa",
+  "description": "bbbb",
+  "resolution": {
+    "id": 0,
+    "name": "対応済み"
+  },
+  "priority": {
+    "id": 3,
+    "name": "中"
+  },
+  "status": {
+    "id": 3,
+    "name": "処理済み"
+  },
+  "assignee": {
+    "id": 3676,
+    "userId": "bouzuya",
+    "name": "bouzuya3",
+    "roleType": 1,
+    "lang": "ja",
+    "mailAddress": "bouzuya@example.com"
+  },
+  "category": [],
+  "versions": [],
+  "milestone": [
+    {
+      "id": 3513,
+      "projectId": 1546,
+      "name": "M1",
+      "description": "",
+      "startDate": "2014-05-05T00:00:00Z",
+      "releaseDueDate": "2014-05-09T00:00:00Z",
+      "archived": false,
+      "displayOrder": 2147483646
+    }
+  ],
+  "startDate": "2015-03-19T00:00:00Z",
+  "dueDate": "2015-03-21T00:00:00Z",
+  "estimatedHours": 2,
+  "actualHours": 3,
+  "parentIssueId": null,
+  "createdUser": {
+    "id": 3676,
+    "userId": "bouzuya",
+    "name": "bouzuya3",
+    "roleType": 1,
+    "lang": "ja",
+    "mailAddress": "bouzuya@example.com"
+  },
+  "created": "2015-03-07T14:37:19Z",
+  "updatedUser": {
+    "id": 3676,
+    "userId": "bouzuya",
+    "name": "bouzuya3",
+    "roleType": 1,
+    "lang": "ja",
+    "mailAddress": "bouzuya@example.com"
+  },
+  "updated": "2015-03-08T11:18:04Z",
+  "customFields": [],
+  "attachments": [],
+  "sharedFiles": [],
+  "stars": []
+}

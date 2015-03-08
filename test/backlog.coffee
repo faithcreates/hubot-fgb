@@ -18,6 +18,7 @@ describe 'Backlog', ->
 
     # common data
     @projectKey = 'PROJ'
+    @issueKey = 'PROJ-123'
     @backlog = new Backlog spaceId: 's', username: 'u', apiKey: 'a'
 
   afterEach ->
@@ -54,6 +55,23 @@ describe 'Backlog', ->
         assert webhooks[0].name is 'hubot-fgb'
         o = @request.getCall(0).args[0]
         assert o.url is 'https://s.backlog.jp/api/v2/projects/PROJ/webhooks'
+
+  describe '#updateIssue', ->
+    beforeEach ->
+      @request = @sinon.stub request, 'Request', (options) =>
+        res =
+          statusCode: 200
+          body: JSON.stringify @samples['update-issue']
+        options.callback null, res
+
+    it 'works', ->
+      @backlog.updateIssue @issueKey, { comment: 'LGTM' }
+      .then (result) =>
+        assert result.issueKey is @issueKey
+        o = @request.getCall(0).args[0]
+        assert o.url is 'https://s.backlog.jp/api/v2/issues/PROJ-123'
+        assert o.method is 'PATCH'
+        assert.deepEqual o.form, { comment: 'LGTM' }
 
   describe '#_buildPath', ->
     it 'works', ->
