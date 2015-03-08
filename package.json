@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "es6-promise": "^2.0.1",
+    "hubot-config": "^1.0.1",
     "request": "^2.53.0"
   },
   "devDependencies": {
