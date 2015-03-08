@@ -14,11 +14,13 @@
 
 {Promise} = require 'es6-promise'
 parseConfig = require 'hubot-config'
+newRequests = require '../review-requests'
 newSpace = require '../space'
 
 config = parseConfig 'fgb',
   backlogSpaceId: null
   projects: '{}'
+  users: '{}'
 
 sendToChat = (robot, { room, user, message }) ->
   m = (if user? then "<@#{user}> " else '') + message
@@ -58,23 +60,31 @@ onIssueUpdated = (robot, space, w, requests) ->
   username = w.createdUser.name
   comment = w.content.comment.content
   room = project.getRoom()
+  resolved = w.content.changes.some (i) ->
+    i.field is 'status' and i.new_value is '3'
   message = """
   #{username} が課題「#{issueKey} #{summary}」を更新したみたい。
   #{comment}
   #{issueUrl}
   """
   sendToChat robot, { room, message }
+  if resolved
+    user = space.getUser username
+    requests.add room, user, issueKey
+    message = "#{issueKey} を誰かにレビュー依頼しないの？"
+    sendToChat robot, { room, user, message }
 
 module.exports = (robot) ->
   robot.logger.debug 'hubot-fgb: load config: ' + JSON.stringify config
   space = newSpace config
+  requests = newRequests()
 
   robot.router.post '/hubot/fgb/backlog/webhook', (req, res) ->
     webhook = req.body
     if webhook.type is 1 # issue created
       onIssueCreated robot, space, webhook
     else if webhook.type is 2 # issue updated
-      onIssueUpdated robot, space, webhook
+      onIssueUpdated robot, space, webhook, requests
     else
       return if webhook.type <= 17 # max webhook.type
       robot.logger.warning "hubot-fgb: unknown webhook type: #{webhook.type}"
