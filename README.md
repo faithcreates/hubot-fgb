@@ -4,6 +4,7 @@ A Hubot script to support FGB.
 
 This script, to integrate the following scripts.
 
+- [bouzuya/hubot-backlog-assign][]
 - [bouzuya/hubot-backlog-issue-preview][]
 
 ## Installation
@@ -36,14 +37,15 @@ See `npm run`
 [![Dependencies status][david-dm-badge]][david-dm]
 [![Coverage Status][coveralls-badge]][coveralls]
 
-[travis]: https://travis-ci.org/bouzuya/hubot-fgb
-[travis-badge]: https://travis-ci.org/bouzuya/hubot-fgb.svg?branch=master
-[david-dm]: https://david-dm.org/bouzuya/hubot-fgb
-[david-dm-badge]: https://david-dm.org/bouzuya/hubot-fgb.png
-[coveralls]: https://coveralls.io/r/bouzuya/hubot-fgb
-[coveralls-badge]: https://img.shields.io/coveralls/bouzuya/hubot-fgb.svg
+[travis]: https://travis-ci.org/faithcreates-tuesday/hubot-fgb
+[travis-badge]: https://travis-ci.org/faithcreates-tuesday/hubot-fgb.svg?branch=master
+[david-dm]: https://david-dm.org/faithcreates-tuesday/hubot-fgb
+[david-dm-badge]: https://david-dm.org/faithcreates-tuesday/hubot-fgb.png
+[coveralls]: https://coveralls.io/r/faithcreates-tuesday/hubot-fgb
+[coveralls-badge]: https://img.shields.io/coveralls/faithcreates-tuesday/hubot-fgb.svg
 [user]: https://github.com/bouzuya
 [mail]: mailto:m@bouzuya.net
 [url]: http://bouzuya.net
 
+[bouzuya/hubot-backlog-assign]: https://github.com/bouzuya/hubot-backlog-assign
 [bouzuya/hubot-backlog-issue-preview]: https://github.com/bouzuya/hubot-backlog-issue-preview
