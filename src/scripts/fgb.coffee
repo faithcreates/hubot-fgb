@@ -45,6 +45,26 @@ onIssueCreated = (robot, space, w) ->
   """
   sendToChat robot, { room, message }
 
+onIssueUpdated = (robot, space, w, requests) ->
+  projectKey = w.project.projectKey
+  project = space.getProject projectKey
+  unless project?
+    robot.logger.warning 'hubot-fgb: unknown project key: ' + projectKey
+    return
+  issueKey = "#{project.getKey()}-#{w.content.key_id}"
+  issueUrl = "https://#{space.getId()}.backlog.jp/view/#{issueKey}"
+  summary = w.content.summary
+  description = w.content.description
+  username = w.createdUser.name
+  comment = w.content.comment.content
+  room = project.getRoom()
+  message = """
+  #{username} が課題「#{issueKey} #{summary}」を更新したみたい。
+  #{comment}
+  #{issueUrl}
+  """
+  sendToChat robot, { room, message }
+
 module.exports = (robot) ->
   robot.logger.debug 'hubot-fgb: load config: ' + JSON.stringify config
   space = newSpace config
@@ -53,6 +73,8 @@ module.exports = (robot) ->
     webhook = req.body
     if webhook.type is 1 # issue created
       onIssueCreated robot, space, webhook
+    else if webhook.type is 2 # issue updated
+      onIssueUpdated robot, space, webhook
     else
       return if webhook.type <= 17 # max webhook.type
       robot.logger.warning "hubot-fgb: unknown webhook type: #{webhook.type}"
