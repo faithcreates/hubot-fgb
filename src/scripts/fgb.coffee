@@ -54,5 +54,6 @@ module.exports = (robot) ->
     if webhook.type is 1 # issue created
       onIssueCreated robot, space, webhook
     else
-      robot.logger.debug "hubot-fgb: unknown webhook type: #{webhook.type}"
+      return if webhook.type <= 17 # max webhook.type
+      robot.logger.warning "hubot-fgb: unknown webhook type: #{webhook.type}"
     res.send 'OK'
