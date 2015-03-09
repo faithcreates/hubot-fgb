@@ -113,6 +113,13 @@ module.exports = (robot) ->
     {project, issueKey} = data
     slackAssigneeUsername = res.match[1]
     space.assign project, issueKey, slackAssigneeUsername
+    .then ->
+      robot.logger.debug """
+        hubot-fgb: assign issue: #{issueKey} to #{slackAssigneeUsername}
+      """
+    .catch (e) ->
+      robot.logger.error 'hubot-fgb: assign error'
+      robot.logger.error e
 
   robot.router.post '/hubot/fgb/backlog/webhook', (req, res) ->
     webhook = req.body
