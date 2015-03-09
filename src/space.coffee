@@ -25,7 +25,7 @@ class Space
       return unless userId?
       # TODO: check resolved
       @getGitHubUrl issueKey
-      .then (url) ->
+      .then (url) =>
         @backlog.updateIssue issueKey,
           comment: """
             レビューをお願いしたいみたい。
