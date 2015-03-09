@@ -57,6 +57,8 @@ onIssueUpdated = (robot, space, project, w, requests) ->
   comment = w.content.comment.content
   room = project.getRoom()
   changes = formatChanges w.content.changes
+  inProgress = w.content.changes.some (i) ->
+    i.field is 'status' and i.new_value is '2'
   resolved = w.content.changes.some (i) ->
     i.field is 'status' and i.new_value is '3'
   assign = w.content.changes.filter((i) -> i.field is 'assigner')[0]
@@ -70,7 +72,7 @@ onIssueUpdated = (robot, space, project, w, requests) ->
   #{issueUrl}
   """
   m = { room, message }
-  if assignerName?
+  if assignerName? and not inProgress
     m.user = space.getUser assignerName
   sendToChat robot, m
   if resolved
