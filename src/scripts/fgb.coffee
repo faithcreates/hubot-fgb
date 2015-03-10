@@ -42,7 +42,7 @@ onIssueCreated = (robot, space, project, w) ->
   username = w.createdUser.name
   room = project.getRoom()
   message = """
-  #{username} が新しい課題「#{issueKey} #{summary}」を追加したみたい。
+  新しい課題「#{issueKey} #{summary}」を #{username} が追加したみたい。
   #{description}
   #{issueUrl}
   """
@@ -64,7 +64,7 @@ onIssueUpdated = (robot, space, project, w, requests) ->
   assign = w.content.changes.filter((i) -> i.field is 'assigner')[0]
   assignerName = assign?.new_value
   message = """
-  #{username} が課題「#{issueKey} #{summary}」を更新したみたい。
+  課題「#{issueKey} #{summary}」を #{username} が更新したみたい。
   #{comment}
   ```
   #{changes}
@@ -94,7 +94,7 @@ onIssueCommented = (robot, space, project, w) ->
   comment = w.content.comment.content
   room = project.getRoom()
   message = """
-  #{username} が課題「#{issueKey} #{summary}」にコメントしたみたい。
+  課題「#{issueKey} #{summary}」に #{username} がコメントしたみたい。
   #{comment}
   #{issueUrl}#comment-#{commentId}
   """
