@@ -4,6 +4,7 @@ A Hubot script to support FGB.
 
 This script, to integrate the following scripts.
 
+- [bouzuya/hubot-backlog-activity][]
 - [bouzuya/hubot-backlog-assign][]
 - [bouzuya/hubot-backlog-issue-preview][]
 
@@ -47,5 +48,6 @@ See `npm run`
 [mail]: mailto:m@bouzuya.net
 [url]: http://bouzuya.net
 
+[bouzuya/hubot-backlog-activity]: https://github.com/bouzuya/hubot-backlog-activity
 [bouzuya/hubot-backlog-assign]: https://github.com/bouzuya/hubot-backlog-assign
 [bouzuya/hubot-backlog-issue-preview]: https://github.com/bouzuya/hubot-backlog-issue-preview
