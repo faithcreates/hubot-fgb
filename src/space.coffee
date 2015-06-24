@@ -33,6 +33,14 @@ class Space
           """
           assigneeId: userId
 
+  # public
+  fetchIssue: (issueKey) ->
+    @backlog.getIssue issueKey
+
+  # public
+  updateIssue: (issueKey, data) ->
+    @backlog.updateIssue issueKey, data
+
   getGitHubUrl: (issueKey) ->
     @backlog.getIssueComments issueKey, { order: 'desc' }
     .then (comments) ->
