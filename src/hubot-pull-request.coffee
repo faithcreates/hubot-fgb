@@ -32,7 +32,7 @@ class HubotPullRequest
       @waitList.push { userId, room, user, repo, number, timerId }
     .then null, (err) ->
       res.robot.logger.error err
-      res.send 'hubot-pr: error'
+      res.send 'hubot-fgb: error'
 
   confirmMergingIssueNo: (res, user, repo, issueNo) ->
     client = @_client()
@@ -59,7 +59,7 @@ class HubotPullRequest
       res.send message
     .then null, (err) ->
       res.robot.logger.error err
-      res.send 'hubot-pr: error'
+      res.send 'hubot-fgb: error'
 
   merge: (res) ->
     item = @_itemFor res
@@ -72,7 +72,7 @@ class HubotPullRequest
       res.send "merged: #{user}/#{repo}##{number} : #{result.message}"
     .then null, (err) ->
       res.robot.logger.error err
-      res.send 'hubot-pr: error'
+      res.send 'hubot-fgb: error'
 
   _client: ->
     new PullRequestManager(token: @token)
