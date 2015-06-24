@@ -8,6 +8,15 @@ class PullRequestManager
       type: 'oauth'
       token: token
 
+  create: (user, repo, title, base, head) ->
+    new Promise (resolve, reject) =>
+      options = { user, repo, title, base, head }
+      @github.pullRequests.create options, (err, ret) ->
+        if err?
+          reject err
+        else
+          resolve ret
+
   get: (user, repo, number) ->
     new Promise (resolve, reject) =>
       @github.pullRequests.get { user, repo, number }, (err, ret) ->

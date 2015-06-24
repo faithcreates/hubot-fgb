@@ -20,6 +20,7 @@ describe 'PullRequestManager', ->
         type: 'oauth'
         token: 'token123'
       ]
+      assert typeof manager.create is 'function'
       assert typeof manager.get is 'function'
       assert typeof manager.list is 'function'
       assert typeof manager.merge is 'function'
