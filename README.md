@@ -7,6 +7,7 @@ This script, to integrate the following scripts.
 - [bouzuya/hubot-backlog-activity][]
 - [bouzuya/hubot-backlog-assign][]
 - [bouzuya/hubot-backlog-issue-preview][]
+- [bouzuya/hubot-pr-fc][]
 
 ## Installation
 
@@ -51,3 +52,4 @@ See `npm run`
 [bouzuya/hubot-backlog-activity]: https://github.com/bouzuya/hubot-backlog-activity
 [bouzuya/hubot-backlog-assign]: https://github.com/bouzuya/hubot-backlog-assign
 [bouzuya/hubot-backlog-issue-preview]: https://github.com/bouzuya/hubot-backlog-issue-preview
+[bouzuya/hubot-pr-fc]: https://github.com/bouzuya/hubot-pr-fc
