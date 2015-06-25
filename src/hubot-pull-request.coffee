@@ -2,7 +2,7 @@
 
 class HubotPullRequest
   constructor: ({ @timeout, @token } = {}) ->
-    @timeout ?= '3000'
+    @timeout ?= '30000'
     @waitList = []
 
   cancel: (res) ->
