@@ -9,8 +9,8 @@ fetchPullRequestDataFromIssue = (space, issueKey) ->
     unless match?
       message = JSON.stringify(errors: [message: 'no issue'])
       throw new Error(message)
-    head = match[1]
-    base = match[2]
+    base = match[1]
+    head = match[2]
     title = match[3]
     { head, base, title }
   .catch (e) ->
