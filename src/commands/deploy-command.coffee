@@ -22,8 +22,8 @@ fetchPullRequestDataFromIssue = (space, issueKey, issueUrl) ->
     message = JSON.parse(e.message).errors[0].message
     throw new Error(message)
 
-resolveIssue = (space, issueKey) ->
-  space.updateIssue issueKey, statusId: 3
+resolveIssue = (space, issueKey, prUrl) ->
+  space.updateIssue issueKey, statusId: 3, comment: prUrl
   .catch (e) ->
     message = JSON.parse(e.message).errors[0].message
     throw new Error(message)
@@ -36,14 +36,13 @@ module.exports = ({ config, robot }) ->
     space = newSpace config
     issueUrl = "https://#{space.getId()}.backlog.jp/view/#{issueKey}"
     fetchPullRequestDataFromIssue space, issueKey, issueUrl
-    .then ({ user, repo, head, base, title }) ->
+    .then ({ user, repo, head, base, title, body }) ->
       user ?= config.mergeDefaultUsername
-      resolveIssue space, issueKey
-      .then ->
-        pr = new PullRequestManager
-          token: config.githubToken
-        pr.create user, repo, title, base, head, body
+      pr = new PullRequestManager
+        token: config.githubToken
+      pr.create user, repo, title, base, head, body
     .then (result) ->
       res.send 'created: pull request ' + result.html_url
+      resolveIssue space, issueKey, result.html_url
     .catch (e) ->
       res.send 'hubot-fgb: ' + e.message
