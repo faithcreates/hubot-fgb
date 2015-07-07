@@ -1,7 +1,7 @@
 {PullRequestManager} = require '../pull-request-manager'
 newSpace = require '../space'
 
-fetchPullRequestDataFromIssue = (space, issueKey) ->
+fetchPullRequestDataFromIssue = (space, issueKey, issueUrl) ->
   space.fetchIssue issueKey
   .then (issue) ->
     summary = issue.summary ? ''
@@ -16,7 +16,8 @@ fetchPullRequestDataFromIssue = (space, issueKey) ->
     match = userAndRepo.match /^(?:([^\/]+)\/)?(\S+)$/
     user = match[1]
     repo = match[2]
-    { user, repo, head, base, title }
+    body = issueUrl
+    { user, repo, head, base, title, body }
   .catch (e) ->
     message = JSON.parse(e.message).errors[0].message
     throw new Error(message)
@@ -33,14 +34,15 @@ module.exports = ({ config, robot }) ->
     issueNo = res.match[2]
     issueKey = projectKey + '-' + issueNo
     space = newSpace config
-    fetchPullRequestDataFromIssue space, issueKey
+    issueUrl = "https://#{space.getId()}.backlog.jp/view/#{issueKey}"
+    fetchPullRequestDataFromIssue space, issueKey, issueUrl
     .then ({ user, repo, head, base, title }) ->
       user ?= config.mergeDefaultUsername
       resolveIssue space, issueKey
       .then ->
         pr = new PullRequestManager
           token: config.githubToken
-        pr.create user, repo, title, base, head
+        pr.create user, repo, title, base, head, body
     .then (result) ->
       res.send 'created: pull request ' + result.html_url
     .catch (e) ->
