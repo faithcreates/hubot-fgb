@@ -1,4 +1,4 @@
-newBacklog = require './backlog'
+newBacklog = require './clients/backlog'
 newProject = require './project'
 
 class Space
