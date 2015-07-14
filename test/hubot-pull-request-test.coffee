@@ -1,7 +1,7 @@
 assert = require 'power-assert'
 sinon = require 'sinon'
 {HubotPullRequest} = require '../src/hubot-pull-request'
-{PullRequestManager} = require '../src/pull-request-manager'
+{PullRequestManager} = require '../src/clients/pull-request-manager'
 
 describe 'HubotPullRequestManager', ->
   beforeEach ->
