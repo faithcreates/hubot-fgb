@@ -1,9 +1,12 @@
+newSpace = require '../space'
 {HubotPullRequest} = require '../hubot-pull-request'
 
 module.exports = ({ config, robot }) ->
+  space = newSpace config
   pr = new HubotPullRequest
     timeout: config.mergeTimeout
     token: config.githubToken
+    space: space
 
   pattern = /(?:pr|merge)\s+(?:([^\/]+)\/)?(\S+)(?:\s+(#?\d+))?\s*$/i
   robot.respond pattern, (res) ->

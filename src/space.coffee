@@ -41,6 +41,22 @@ class Space
   updateIssue: (issueKey, data) ->
     @backlog.updateIssue issueKey, data
 
+  # public
+  returnIssue: (issueKey) ->
+    @backlog.getIssueComments issueKey
+    .then (comments) =>
+      assigner = @getPreviousAssigner comments
+      projectKey = issueKey.replace /-\d+$/, ''
+      @backlog.getProjectUsers projectKey
+      .then (users) =>
+        filtered = users.filter (i) ->
+          i.name is assigner
+        user = filtered[0]
+        return unless user?
+        @backlog.updateIssue issueKey,
+          assigneeId: user.id
+          comment: 'マージされたってさ'
+
   getGitHubUrl: (issueKey) ->
     @backlog.getIssueComments issueKey, { order: 'desc' }
     .then (comments) ->
@@ -70,6 +86,17 @@ class Space
   getBacklogUser: (user) ->
     backlogUsers = (k for k, v of @users when v is user)
     backlogUsers[0] ? null
+
+  getPreviousAssigner: (comments) ->
+    assigner = null
+    comments.some (i) ->
+      return false unless i.changeLog?
+      logs = i.changeLog.filter (j) ->
+        j.field is 'assigner'
+      return false if logs.length is 0
+      assigner = logs[0].originalValue
+      true
+    assigner
 
 module.exports = (config) ->
   new Space config
