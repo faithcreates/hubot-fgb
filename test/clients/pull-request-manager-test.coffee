@@ -1,7 +1,7 @@
 assert = require 'power-assert'
 sinon = require 'sinon'
 GitHub = require 'github'
-{PullRequestManager} = require '../src/pull-request-manager'
+{PullRequestManager} = require '../../src/clients/pull-request-manager'
 
 describe 'PullRequestManager', ->
   beforeEach ->

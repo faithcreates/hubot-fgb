@@ -1,4 +1,4 @@
-{PullRequestManager} = require '../pull-request-manager'
+{PullRequestManager} = require '../clients/pull-request-manager'
 newSpace = require '../space'
 
 fetchPullRequestDataFromIssue = (space, issueKey, issueUrl) ->

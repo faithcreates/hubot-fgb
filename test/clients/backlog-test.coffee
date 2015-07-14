@@ -1,7 +1,7 @@
 assert = require 'power-assert'
 sinon = require 'sinon'
 request = require 'request'
-{Backlog} = require '../src/backlog'
+{Backlog} = require '../../src/clients/backlog'
 
 describe 'Backlog', ->
   beforeEach ->

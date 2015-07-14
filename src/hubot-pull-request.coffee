@@ -1,7 +1,7 @@
-{PullRequestManager} = require './pull-request-manager'
+{PullRequestManager} = require './clients/pull-request-manager'
 
 class HubotPullRequest
-  constructor: ({ @timeout, @token } = {}) ->
+  constructor: ({ @timeout, @token, @space } = {}) ->
     @timeout ?= '30000'
     @waitList = []
 
@@ -12,7 +12,7 @@ class HubotPullRequest
     { user, repo, number } = item
     res.send "canceled: #{user}/#{repo}##{number}"
 
-  confirmMerging: (res, user, repo, number) ->
+  confirmMerging: (res, user, repo, number, issueKey = null) ->
     client = @_client()
     client.get(user, repo, number)
     .then (result) =>
@@ -29,7 +29,7 @@ class HubotPullRequest
       timerId = setTimeout =>
         @waitList = @waitList.filter (i) -> i.timerId isnt timerId
       , timeout
-      @waitList.push { userId, room, user, repo, number, timerId }
+      @waitList.push { userId, room, user, repo, number, timerId, issueKey }
     .then null, (err) ->
       res.robot.logger.error err
       res.send 'hubot-fgb: error'
@@ -39,11 +39,14 @@ class HubotPullRequest
     client.list(user, repo)
     .then (pulls) =>
       return res.send('no pr') if pulls.length is 0
+      issueKey = null
       matches = pulls.filter (p) ->
-        pattern = new RegExp('^[0-9A-Z_]+-' + issueNo)
-        p.title.match pattern
+        pattern = new RegExp('^([0-9A-Z_]+-' + issueNo + ')')
+        matched = p.title.match pattern
+        issueKey = matched[1] if matched?
+        matched?
       return res.send('no pr') if matches.length is 0
-      @confirmMerging(res, user, repo, matches[0].number)
+      @confirmMerging(res, user, repo, matches[0].number, issueKey)
 
   list: (res, user, repo) ->
     client = @_client()
@@ -65,11 +68,12 @@ class HubotPullRequest
     item = @_itemFor res
     return unless item?
     @_removeItem item
-    { user, repo, number } = item
+    { user, repo, number, issueKey } = item
     client = @_client()
     client.merge(user, repo, number)
-    .then (result) ->
+    .then (result) =>
       res.send "merged: #{user}/#{repo}##{number} : #{result.message}"
+      @space.returnIssue(issueKey) if issueKey?
     .then null, (err) ->
       res.robot.logger.error err
       res.send 'hubot-fgb: error'
