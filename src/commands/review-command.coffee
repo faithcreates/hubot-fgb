@@ -1,18 +1,6 @@
-newSpace = require '../space'
-{HubotPullRequest} = require '../hubot-pull-request'
-
-module.exports = ({ config, robot }) ->
+module.exports = ({ pr, config, robot }) ->
   # slack to github
   users = JSON.parse config.githubUsers ? '{}'
-  @id = config.backlogSpaceId
-
-  config.githubUsers
-  space = newSpace config
-  pr = new HubotPullRequest
-    timeout: config.mergeTimeout
-    token: config.githubToken
-    space: space
-
   pattern = /^\s*[@]?([^:,]+)[:,]?\s*review\s+(?:([^\/]+)\/)?([^#]+)#(\d+)\s*$/i
   robot.hear pattern, (res) ->
     reviewerInSlack = res.match[1]

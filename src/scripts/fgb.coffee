@@ -27,6 +27,8 @@ addPrCommand = require '../commands/pr-command'
 addRejectCommand = require '../commands/reject-command'
 addReviewCommand = require '../commands/review-command'
 addYesNoCommand = require '../commands/yes-no-command'
+newSpace = require '../space'
+{HubotPullRequest} = require '../hubot-pull-request'
 
 config = parseConfig 'fgb',
   backlogApiKey: null
@@ -42,10 +44,16 @@ config = parseConfig 'fgb',
 module.exports = (robot) ->
   robot.logger.debug 'hubot-fgb: load config: ' + JSON.stringify config
 
+  space = newSpace config
+  pr = new HubotPullRequest
+    timeout: config.mergeTimeout
+    token: config.githubToken
+    space: space
+
   addAssignCommand { config, robot }
   addDeployCommand { config, robot }
-  addMergeCommand { config, robot }
-  addPrCommand { config, robot }
-  addRejectCommand { config, robot }
-  addReviewCommand { config, robot }
-  addYesNoCommand { config, robot }
+  addMergeCommand { pr, config, robot }
+  addPrCommand { pr, config, robot }
+  addRejectCommand { pr, config, robot }
+  addReviewCommand { pr, config, robot }
+  addYesNoCommand { pr, robot }
