@@ -13,7 +13,7 @@ module.exports = ({ config, robot }) ->
     token: config.githubToken
     space: space
 
-  pattern = /^\s*[@]?(\S+)[:,]?\s*review\s+(?:([^\/]+)\/)?([^#]+)#(\d+)\s*$/i
+  pattern = /^\s*[@]?([^:,]+)[:,]?\s*review\s+(?:([^\/]+)\/)?([^#]+)#(\d+)\s*$/i
   robot.hear pattern, (res) ->
     reviewerInSlack = res.match[1]
     user = res.match[2] ? config.mergeDefaultUsername
