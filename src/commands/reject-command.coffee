@@ -1,5 +1,5 @@
 module.exports = ({ pr, config, robot }) ->
-  pattern = /^\s*[@]?\S+[:,]?\s*reject\s+(?:([^\/]+)\/)?([^#]+)#(\d+)\s*$/i
+  pattern = /^\s*[@]?\S+[:,]?\s*reject(?:ed)?\s+(?:([^\/]+)\/)?([^#]+)#(\d+)\s*$/i
   robot.hear pattern, (res) ->
     user = res.match[1] ? config.mergeDefaultUsername
     return unless user?
