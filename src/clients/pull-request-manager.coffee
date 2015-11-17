@@ -52,4 +52,15 @@ class PullRequestManager
         else
           resolve ret
 
+  review: (user, repo, number, reviewer) ->
+    new Promise (resolve, reject) =>
+      labels = ['review']
+      assignee = reviewer
+      params = { user, repo, number, labels, assignee }
+      @github.issues.edit params, (err, ret) ->
+        if err?
+          reject err
+        else
+          resolve ret
+
 module.exports.PullRequestManager = PullRequestManager

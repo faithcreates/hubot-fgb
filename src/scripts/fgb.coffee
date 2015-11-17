@@ -10,6 +10,7 @@
 #   HUBOT_FGB_MERGE_TIMEOUT
 #   HUBOT_FGB_PROJECTS
 #   HUBOT_FGB_USERS
+#   HUBOT_FGB_GITHUB_USERS
 #
 # Commands:
 #   hubot deploy [<user>/]<repo> <issue-key> ... create pull request to deploy
@@ -24,6 +25,7 @@ addDeployCommand = require '../commands/deploy-command'
 addMergeCommand = require '../commands/merge-command'
 addPrCommand = require '../commands/pr-command'
 addRejectCommand = require '../commands/reject-command'
+addReviewCommand = require '../commands/review-command'
 addYesNoCommand = require '../commands/yes-no-command'
 
 config = parseConfig 'fgb',
@@ -35,6 +37,7 @@ config = parseConfig 'fgb',
   mergeTimeout: null
   projects: '{}' # backlog project key -> slack channel
   users: '{}' # backlog user name -> slack user name
+  githubUsers: '{}' # slack user name -> github user name
 
 module.exports = (robot) ->
   robot.logger.debug 'hubot-fgb: load config: ' + JSON.stringify config
@@ -44,4 +47,5 @@ module.exports = (robot) ->
   addMergeCommand { config, robot }
   addPrCommand { config, robot }
   addRejectCommand { config, robot }
+  addReviewCommand { config, robot }
   addYesNoCommand { config, robot }

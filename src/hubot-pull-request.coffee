@@ -87,6 +87,15 @@ class HubotPullRequest
       res.robot.logger.error err
       res.send 'hubot-fgb: error'
 
+  review: (res, user, repo, number, reviewer) ->
+    client = @_client()
+    client.review(user, repo, number, reviewer)
+    .then ->
+      res.send "assigned: #{user}/#{repo}##{number} > #{reviewer}"
+    .then null, (err) ->
+      res.robot.logger.error err
+      res.send 'hubot-fgb: error'
+
   _client: ->
     new PullRequestManager(token: @token)
 
