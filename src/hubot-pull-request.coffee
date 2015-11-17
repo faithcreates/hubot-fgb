@@ -81,8 +81,11 @@ class HubotPullRequest
   reject: (res, user, repo, number) ->
     client = @_client()
     client.reject(user, repo, number)
-    .then ->
-      res.send "rejected: #{user}/#{repo}##{number}"
+    .then (result) ->
+      res.send """
+        rejected: #{user}/#{repo}##{number}
+        #{result.html_url}
+      """
     .then null, (err) ->
       res.robot.logger.error err
       res.send 'hubot-fgb: error'
@@ -90,8 +93,11 @@ class HubotPullRequest
   review: (res, user, repo, number, reviewer) ->
     client = @_client()
     client.review(user, repo, number, reviewer)
-    .then ->
-      res.send "assigned: #{user}/#{repo}##{number} > #{reviewer}"
+    .then (result) ->
+      res.send """
+        assigned: #{user}/#{repo}##{number} > #{reviewer}
+        #{result.html_url}
+      """
     .then null, (err) ->
       res.robot.logger.error err
       res.send 'hubot-fgb: error'
