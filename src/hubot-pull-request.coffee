@@ -78,6 +78,15 @@ class HubotPullRequest
       res.robot.logger.error err
       res.send 'hubot-fgb: error'
 
+  reject: (res, user, repo, number) ->
+    client = @_client()
+    client.reject(user, repo, number)
+    .then ->
+      res.send "rejected: #{user}/#{repo}##{number}"
+    .then null, (err) ->
+      res.robot.logger.error err
+      res.send 'hubot-fgb: error'
+
   _client: ->
     new PullRequestManager(token: @token)
 

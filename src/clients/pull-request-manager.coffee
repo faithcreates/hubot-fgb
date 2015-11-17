@@ -41,4 +41,15 @@ class PullRequestManager
         else
           resolve ret
 
+  reject: (user, repo, number) ->
+    new Promise (resolve, reject) =>
+      labels = []
+      assignee = null
+      params = { user, repo, number, labels, assignee }
+      @github.issues.edit params, (err, ret) ->
+        if err?
+          reject err
+        else
+          resolve ret
+
 module.exports.PullRequestManager = PullRequestManager
