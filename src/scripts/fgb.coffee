@@ -21,6 +21,7 @@
 parseConfig = require 'hubot-config'
 addAssignCommand = require '../commands/assign-command'
 addDeployCommand = require '../commands/deploy-command'
+addMergeCommand = require '../commands/merge-command'
 addPrCommand = require '../commands/pr-command'
 
 config = parseConfig 'fgb',
@@ -38,4 +39,5 @@ module.exports = (robot) ->
 
   addAssignCommand { config, robot }
   addDeployCommand { config, robot }
+  addMergeCommand { config, robot }
   addPrCommand { config, robot }
