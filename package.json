@@ -1,7 +1,7 @@
 {
   "name": "hubot-fgb",
   "description": "A Hubot script to support FGB",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "author": {
     "name": "bouzuya",
     "mail": "m@bouzuya.net",
