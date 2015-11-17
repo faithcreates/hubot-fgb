@@ -8,7 +8,7 @@ module.exports = ({ config, robot }) ->
     token: config.githubToken
     space: space
 
-  pattern = /(?:pr|merge)\s+(?:([^\/]+)\/)?(\S+)(?:\s+(#?\d+))?\s*$/i
+  pattern = /pr\s+(?:([^\/]+)\/)?(\S+)(?:\s+(#?\d+))?\s*$/i
   robot.respond pattern, (res) ->
     user = res.match[1] ? config.mergeDefaultUsername
     return unless user?
