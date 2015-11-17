@@ -25,9 +25,3 @@ module.exports = ({ config, robot }) ->
     else
       pr.list
     f.apply pr, [res, user, repo, number]
-
-  robot.hear /^y(?:es)?$/i, (res) ->
-    pr.merge res
-
-  robot.hear /^n(?:o)?$/i, (res) ->
-    pr.cancel res

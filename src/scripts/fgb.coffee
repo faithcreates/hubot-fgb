@@ -23,6 +23,7 @@ addAssignCommand = require '../commands/assign-command'
 addDeployCommand = require '../commands/deploy-command'
 addMergeCommand = require '../commands/merge-command'
 addPrCommand = require '../commands/pr-command'
+addYesNoCommand = require '../commands/yes-no-command'
 
 config = parseConfig 'fgb',
   backlogApiKey: null
@@ -41,3 +42,4 @@ module.exports = (robot) ->
   addDeployCommand { config, robot }
   addMergeCommand { config, robot }
   addPrCommand { config, robot }
+  addYesNoCommand { config, robot }
