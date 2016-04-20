@@ -71,9 +71,8 @@ class HubotPullRequest
     { user, repo, number, issueKey } = item
     client = @_client()
     client.merge(user, repo, number)
-    .then (result) =>
+    .then (result) ->
       res.send "merged: #{user}/#{repo}##{number} : #{result.message}"
-      @space.returnIssue(issueKey) if issueKey?
     .then null, (err) ->
       res.robot.logger.error err
       res.send 'hubot-fgb: error'

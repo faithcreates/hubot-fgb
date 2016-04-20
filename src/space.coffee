@@ -41,22 +41,6 @@ class Space
   updateIssue: (issueKey, data) ->
     @backlog.updateIssue issueKey, data
 
-  # public
-  returnIssue: (issueKey) ->
-    @backlog.getIssueComments issueKey
-    .then (comments) =>
-      assigner = @getPreviousAssigner comments
-      projectKey = issueKey.replace /-\d+$/, ''
-      @backlog.getProjectUsers projectKey
-      .then (users) =>
-        filtered = users.filter (i) ->
-          i.name is assigner
-        user = filtered[0]
-        return unless user?
-        @backlog.updateIssue issueKey,
-          assigneeId: user.id
-          comment: 'マージされたってさ'
-
   getGitHubUrl: (issueKey) ->
     @backlog.getIssueComments issueKey, { order: 'desc' }
     .then (comments) ->
