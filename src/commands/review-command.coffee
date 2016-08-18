@@ -1,7 +1,8 @@
 module.exports = ({ pr, config, robot }) ->
   # slack to github
   users = JSON.parse config.githubUsers ? '{}'
-  pattern = /^\s*[@]?([^:,]+)[:,]?\s*review\s+(?:([^\/]+)\/)?([^#]+)#(\d+)\s*$/i
+  pattern =
+    /^\s*[@]?([^:,\s]+)[:,]?\s*review\s+(?:([^\/]+)\/)?([^#]+)#(\d+)\s*$/i
   robot.hear pattern, (res) ->
     reviewerInSlack = res.match[1]
     user = res.match[2] ? config.mergeDefaultUsername
